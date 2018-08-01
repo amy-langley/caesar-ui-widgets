@@ -1,11 +1,16 @@
 import React from 'react';
 import css from '../styl/index.styl'; // eslint-disable-line no-unused-vars
 
-const TestComponent = function Username() {
+const TestComponent = function TestComponent() {
   return (
-    <p className="test-class">
-      test
-    </p>
+    <div>
+      <p className="test-class">
+        test
+      </p>
+      <button className="btn btn-primary" type="submit">
+        BOO
+      </button>
+    </div>
   );
 };
 
