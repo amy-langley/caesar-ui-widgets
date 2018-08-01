@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.4.1",
-    "react-bootstrap": "~0.32.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4",
     "@storybook/addon-actions": "^3.4.8",
     "@storybook/addon-links": "^3.4.8",
     "@storybook/addons": "^3.4.8",
-    "@storybook/react": "^3.4.8"
+    "@storybook/react": "^3.4.8",
+    "react": "^16.4.1",
+    "react-bootstrap": "~0.32.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,6 +29,7 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.9.1",
+    "fsevents": "/Users/aboyer1.2.4",
     "stylus": "~0.54.5",
     "stylus-loader": "~3.0.2"
   }
