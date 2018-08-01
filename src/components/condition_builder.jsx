@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   Col,
@@ -8,7 +9,8 @@ import {
   Panel,
   Row,
 } from 'react-bootstrap';
-import css from '../../styl/index.styl'; // eslint-disable-line no-unused-vars
+import css from '../styl/index.styl'; // eslint-disable-line no-unused-vars
+import ConditionViewer from './condition_viewer';
 
 /* eslint-disable react/prefer-stateless-function */
 class ConditionBuilder extends React.Component {
@@ -58,12 +60,9 @@ class ConditionBuilder extends React.Component {
     const {
       showBuilder,
       conditionString,
-      validCondition,
       lastParse,
     } = this.state;
     const builderDisplay = showBuilder ? 'block' : 'none';
-    const okBadgeDisplay = validCondition ? 'inline' : 'none';
-    const noBadgeDisplay = validCondition ? 'none' : 'inline';
 
     return (
       <Grid fluid>
@@ -96,7 +95,7 @@ class ConditionBuilder extends React.Component {
           <Col xs="12" md="12">
             <Panel>
               <Panel.Body>
-                { JSON.stringify(lastParse) }
+                <ConditionViewer condition={lastParse} />
               </Panel.Body>
             </Panel>
           </Col>
