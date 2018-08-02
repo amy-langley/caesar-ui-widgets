@@ -16,6 +16,7 @@ storiesOf('ConditionBuilder', module).add('default', () => <ConditionBuilder />)
 storiesOf('ConditionViewer', module).add('empty', () => <ConditionViewer condition={[]} />);
 storiesOf('ConditionViewer', module).add('simple', () => <ConditionViewer condition={["gte", ["const", 4], ["const", 3]]} /> )
 storiesOf('ConditionViewer', module).add('nested', () => <ConditionViewer condition={["or", ["gte", ["const", 4], ["const", 3]], ["eq", ["lookup", "c.val", 0], ["const", 2]]]} /> )
+storiesOf('ConditionViewer', module).add('with hole', () => <ConditionViewer condition={["or", null, ["gte", null, ["const", 3]]]} /> )
 
 storiesOf('Button', module)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)

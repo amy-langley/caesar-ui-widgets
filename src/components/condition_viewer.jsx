@@ -1,6 +1,10 @@
-/* eslint-disable react/prefer-stateless-function, react/forbid-prop-types, no-nested-ternary */
+/* eslint-disable
+  react/prefer-stateless-function, react/forbid-prop-types,
+  no-nested-ternary, react/no-multi-comp
+*/
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 function emptyCondition(condition) {
   if (condition === null) return true;
@@ -12,9 +16,11 @@ class ConditionViewer extends React.Component {
   render() {
     const { condition } = this.props;
     return emptyCondition(condition) ? (
-      <span>
-        empty
-      </span>
+      <li>
+        <Button bsStyle="primary">
+          Insert
+        </Button>
+      </li>
     ) : (condition instanceof Array) ? (
       <span>
         <li>

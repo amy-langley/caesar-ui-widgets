@@ -44,8 +44,10 @@ class ConditionBuilder extends React.Component {
 
     try {
       const parse = JSON.parse(expr);
-      validCondition = true;
-      lastParse = parse;
+      if (parse != null && parse instanceof Array) {
+        validCondition = true;
+        lastParse = parse;
+      }
     } catch (ex) {
       validCondition = false;
     }
