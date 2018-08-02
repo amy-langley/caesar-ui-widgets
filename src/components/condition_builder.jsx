@@ -12,7 +12,6 @@ import {
 import css from '../styl/index.styl'; // eslint-disable-line no-unused-vars
 import ConditionViewer from './condition_viewer';
 
-/* eslint-disable react/prefer-stateless-function */
 class ConditionBuilder extends React.Component {
   constructor() {
     super();
