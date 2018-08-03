@@ -122,12 +122,20 @@ class ConditionBuilder extends React.Component {
         <Row style={{ display: builderDisplay }}>
           <Col xs="12" md="12">
             <Panel>
-              <Panel.Body>
-                <ConditionViewer
-                  condition={lastParse}
-                  onEdit={this.updateExpression}
-                  zipper={zipper}
-                />
+              <Panel.Body className="condition-viewer">
+                <Grid fluid>
+                  <Row>
+                    <Col xs="4" md="4">
+                      <ul>
+                        <ConditionViewer
+                          condition={lastParse}
+                          onEdit={this.updateExpression}
+                          zipper={zipper}
+                        />
+                      </ul>
+                    </Col>
+                  </Row>
+                </Grid>
               </Panel.Body>
             </Panel>
           </Col>

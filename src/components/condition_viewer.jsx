@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Zipper } from '../lib/zipper';
-
-// function emptyCondition(condition) {
-//   if (condition === null) return true;
-//   if (condition instanceof Array && condition.length === 0) return true;
-//   return false;
-// }
 
 class ConditionViewer extends React.Component {
   constructor(props) {
@@ -59,18 +53,32 @@ class ConditionViewer extends React.Component {
     const { onEdit, zipper } = this.props;
     return (
       <span className="form-inline">
-        <li>
+        <li className="clearfix">
           <span style={{ display: editing ? 'none' : 'inline' }}>
+            <span className="pull-right">
+              <Button onClick={this.beginEdit} bsClass="btn btn-primary btn-sm">
+                <i className="glyphicon glyphicon-pencil" />
+                &nbsp;
+                Edit
+              </Button>
+            </span>
             { zipper.item.value }
-            <i className="glyphicon glyphicon-pencil pull-right text-primary" onClick={this.beginEdit} />
           </span>
           <span style={{ display: editing ? 'inline' : 'none' }}>
-            <input type="text" className="form-control" value={valueString} onChange={this.updateValue} />
             <span className="pull-right">
-              <i className="glyphicon glyphicon-ok text-success" onClick={this.acceptEdit} />
-              &nbsp;&nbsp;
-              <i className="glyphicon glyphicon-remove text-warning" onClick={this.rejectEdit} />
+              <Button onClick={this.acceptEdit} bsClass="btn btn-success btn-sm">
+                <i className="glyphicon glyphicon-ok" />
+                &nbsp;
+                OK
+              </Button>
+              &nbsp;
+              <Button onClick={this.acceptEdit} bsClass="btn btn-warning btn-sm">
+                <i className="glyphicon glyphicon-remove" />
+                &nbsp;
+                Cancel
+              </Button>
             </span>
+            <input type="text" className="form-control" value={valueString} onChange={this.updateValue} />
           </span>
         </li>
         <ul>
