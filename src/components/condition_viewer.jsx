@@ -88,19 +88,19 @@ class ConditionViewer extends React.Component {
                 <Glyphicon glyph="cog" />
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <MenuItem onClick={this.appendChild}>
+                <MenuItem onSelect={this.appendChild}>
                   <Glyphicon glyph="plus" className="pull-right" />
                   Add Child
                 </MenuItem>
-                <MenuItem onClick={this.beginEdit}>
+                <MenuItem onSelect={this.beginEdit}>
                   <i className="glyphicon glyphicon-pencil pull-right" />
                   Edit
                 </MenuItem>
-                <MenuItem onClick={this.clearValue}>
+                <MenuItem onSelect={this.clearValue} disabled={zipper.isRoot()}>
                   <i className="glyphicon glyphicon-erase pull-right" />
                   Clear
                 </MenuItem>
-                <MenuItem onClick={onDelete} disabled={zipper.isRoot()}>
+                <MenuItem onSelect={onDelete} disabled={zipper.isRoot()}>
                   <i className="glyphicon glyphicon-remove pull-right" />
                   Remove
                 </MenuItem>
