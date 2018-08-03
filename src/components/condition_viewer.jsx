@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import {
+  Button,
+  Dropdown,
+  Glyphicon,
+  MenuItem,
+} from 'react-bootstrap';
 import { Zipper } from '../lib/zipper';
 
 class ConditionViewer extends React.Component {
@@ -14,6 +19,7 @@ class ConditionViewer extends React.Component {
     };
 
     this.updateValue = this.updateValue.bind(this);
+    this.appendChild = this.appendChild.bind(this);
     this.removeChild = this.removeChild.bind(this);
     this.clearValue = this.clearValue.bind(this);
 
@@ -37,6 +43,11 @@ class ConditionViewer extends React.Component {
       editing: true,
       valueString: zipper.item.value || '',
     });
+  }
+
+  appendChild() {
+    const { zipper, onEdit } = this.props;
+    onEdit(zipper.mutate(n => n.appendChild()));
   }
 
   acceptEdit() {
@@ -71,26 +82,32 @@ class ConditionViewer extends React.Component {
     return (
       <span className="form-inline">
         <li className="clearfix">
+          <span className="pull-right">
+            <Dropdown pullRight disabled={editing}>
+              <Dropdown.Toggle className="btn-sm btn-primary">
+                <Glyphicon glyph="cog" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <MenuItem onClick={this.appendChild}>
+                  <Glyphicon glyph="plus" className="pull-right" />
+                  Add Child
+                </MenuItem>
+                <MenuItem onClick={this.beginEdit}>
+                  <i className="glyphicon glyphicon-pencil pull-right" />
+                  Edit
+                </MenuItem>
+                <MenuItem onClick={this.clearValue}>
+                  <i className="glyphicon glyphicon-erase pull-right" />
+                  Clear
+                </MenuItem>
+                <MenuItem onClick={onDelete} disabled={zipper.isRoot()}>
+                  <i className="glyphicon glyphicon-remove pull-right" />
+                  Remove
+                </MenuItem>
+              </Dropdown.Menu>
+            </Dropdown>
+          </span>
           <span style={{ display: editing ? 'none' : 'inline' }}>
-            <span className="pull-right">
-              <Button onClick={this.beginEdit} bsClass="btn btn-primary btn-sm">
-                <i className="glyphicon glyphicon-pencil" />
-                &nbsp;
-                Edit
-              </Button>
-              &nbsp;
-              <Button onClick={this.clearValue} bsClass="btn btn-warning btn-sm">
-                <i className="glyphicon glyphicon-remove" />
-                &nbsp;
-                Clear
-              </Button>
-              &nbsp;
-              <Button onClick={onDelete} bsClass="btn btn-danger btn-sm">
-                <i className="glyphicon glyphicon-remove" />
-                &nbsp;
-                Remove
-              </Button>
-            </span>
             { zipper.item.value }
           </span>
           <span style={{ display: editing ? 'inline' : 'none' }}>
@@ -101,16 +118,17 @@ class ConditionViewer extends React.Component {
                 OK
               </Button>
               &nbsp;
-              <Button onClick={this.acceptEdit} bsClass="btn btn-warning btn-sm">
+              <Button onClick={this.acceptEdit} bsClass="btn btn-default btn-sm">
                 <i className="glyphicon glyphicon-remove" />
                 &nbsp;
                 Cancel
               </Button>
+              &nbsp;
             </span>
             <input type="text" className="form-control" value={valueString} onChange={this.updateValue} />
           </span>
         </li>
-        <ul>
+        <ul className="cv">
           { (zipper.item.children || []).map(
             (child, idx) => (
               <ConditionViewer

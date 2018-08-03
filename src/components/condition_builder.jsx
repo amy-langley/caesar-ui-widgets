@@ -128,7 +128,7 @@ class ConditionBuilder extends React.Component {
                 <Grid fluid>
                   <Row>
                     <Col xs={4} md={4}>
-                      <ul>
+                      <ul className="cv">
                         <ConditionViewer
                           condition={lastParse}
                           onEdit={this.updateExpression}
