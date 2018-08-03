@@ -14,6 +14,7 @@ class ConditionViewer extends React.Component {
     };
 
     this.updateValue = this.updateValue.bind(this);
+    this.removeChild = this.removeChild.bind(this);
 
     this.beginEdit = this.beginEdit.bind(this);
     this.rejectEdit = this.rejectEdit.bind(this);
@@ -48,9 +49,19 @@ class ConditionViewer extends React.Component {
     });
   }
 
+  /* eslint-disable no-alert, no-restricted-globals, no-undef  */
+  removeChild(index) {
+    if (confirm('Are you sure you want to delete this item and its children?')) {
+      const { zipper, onEdit } = this.props;
+      onEdit(zipper.mutate(n => n.removeChild(index)));
+    }
+  }
+  /* eslint-enable */
+
   render() {
     const { valueString, editing } = this.state;
-    const { onEdit, zipper } = this.props;
+    const { onDelete, onEdit, zipper } = this.props;
+    const self = this;
     return (
       <span className="form-inline">
         <li className="clearfix">
@@ -60,6 +71,12 @@ class ConditionViewer extends React.Component {
                 <i className="glyphicon glyphicon-pencil" />
                 &nbsp;
                 Edit
+              </Button>
+              &nbsp;
+              <Button onClick={onDelete} bsClass="btn btn-danger btn-sm">
+                <i className="glyphicon glyphicon-remove" />
+                &nbsp;
+                Remove
               </Button>
             </span>
             { zipper.item.value }
@@ -87,6 +104,7 @@ class ConditionViewer extends React.Component {
               <ConditionViewer
                 condition={child.item}
                 onEdit={onEdit}
+                onDelete={() => self.removeChild(idx)}
                 zipper={zipper.childAt(idx)}
               />),
           ) }
@@ -98,11 +116,13 @@ class ConditionViewer extends React.Component {
 
 ConditionViewer.propTypes = {
   onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
   zipper: PropTypes.objectOf(Zipper).isRequired,
 };
 
 ConditionViewer.defaultProps = {
   onEdit: () => null,
+  onDelete: () => null,
 };
 
 export default ConditionViewer;
