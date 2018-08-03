@@ -8,6 +8,12 @@ class Node {
     return new Node(newValue, this.children);
   }
 
+  /* eslint-disable class-methods-use-this */
+  clear() {
+    return new Node(null, []);
+  }
+  /* eslint-enable */
+
   appendChild() {
     return new Node(this.value, this.children.concat(new Node(null, [])));
   }
@@ -32,7 +38,7 @@ class Node {
   }
 
   to_a() { // eslint-disable-line camelcase
-    if (!this.children) {
+    if (!this.children || this.children.length === 0) {
       return this.value;
     }
 

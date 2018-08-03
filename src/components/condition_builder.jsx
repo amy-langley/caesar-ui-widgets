@@ -39,6 +39,8 @@ class ConditionBuilder extends React.Component {
   }
 
   updateExpression(newZipper) {
+    console.log('ping');
+    console.log(JSON.stringify(newZipper));
     let zipper = newZipper;
     while (!zipper.isRoot()) {
       zipper = zipper.up();

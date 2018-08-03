@@ -15,10 +15,16 @@ class ConditionViewer extends React.Component {
 
     this.updateValue = this.updateValue.bind(this);
     this.removeChild = this.removeChild.bind(this);
+    this.clearValue = this.clearValue.bind(this);
 
     this.beginEdit = this.beginEdit.bind(this);
     this.rejectEdit = this.rejectEdit.bind(this);
     this.acceptEdit = this.acceptEdit.bind(this);
+  }
+
+  clearValue() {
+    const { zipper, onEdit } = this.props;
+    onEdit(zipper.mutate(n => n.clear()));
   }
 
   updateValue(event) {
@@ -71,6 +77,12 @@ class ConditionViewer extends React.Component {
                 <i className="glyphicon glyphicon-pencil" />
                 &nbsp;
                 Edit
+              </Button>
+              &nbsp;
+              <Button onClick={this.clearValue} bsClass="btn btn-warning btn-sm">
+                <i className="glyphicon glyphicon-remove" />
+                &nbsp;
+                Clear
               </Button>
               &nbsp;
               <Button onClick={onDelete} bsClass="btn btn-danger btn-sm">
