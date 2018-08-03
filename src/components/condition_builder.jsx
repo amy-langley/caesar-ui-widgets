@@ -95,14 +95,14 @@ class ConditionBuilder extends React.Component {
     return (
       <Grid fluid>
         <Row>
-          <Col xs="12" md="12">
+          <Col xs={12} md={12}>
             <h1>
               Condition Builder
             </h1>
           </Col>
         </Row>
         <Row>
-          <Col xs="12" md="12">
+          <Col xs={12} md={12}>
             <FormGroup
               controlId="formCondition"
               validationState={this.getValidationState()}
@@ -120,12 +120,12 @@ class ConditionBuilder extends React.Component {
           </Col>
         </Row>
         <Row style={{ display: builderDisplay }}>
-          <Col xs="12" md="12">
+          <Col xs={12} md={12}>
             <Panel>
               <Panel.Body className="condition-viewer">
                 <Grid fluid>
                   <Row>
-                    <Col xs="4" md="4">
+                    <Col xs={4} md={4}>
                       <ul>
                         <ConditionViewer
                           condition={lastParse}
@@ -141,7 +141,7 @@ class ConditionBuilder extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs="12" md="12">
+          <Col xs={12} md={12}>
             <div className="pull-right">
               <button
                 type="submit"
