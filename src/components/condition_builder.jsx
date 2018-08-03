@@ -11,25 +11,47 @@ import {
 } from 'react-bootstrap';
 import css from '../styl/index.styl'; // eslint-disable-line no-unused-vars
 import ConditionViewer from './condition_viewer';
+import { Zipper } from '../lib/zipper';
 
 class ConditionBuilder extends React.Component {
   constructor() {
     super();
+
+    const initString = '["or", ["gte", ["const", 4], ["const", 3]], ["eq", ["lookup", "c.val", 0], ["const", 2]]]';
+
     this.state = {
-      conditionString: '["gte", ["const", 4], ["const", 3]]',
+      conditionString: initString,
       showBuilder: true,
       validCondition: true,
-      lastParse: ['gte', ['const', 4], ['const', 3]],
+      lastParse: JSON.parse(initString),
+      zipper: Zipper.from_a(JSON.parse(initString)),
     };
 
     this.toggleBuilder = this.toggleBuilder.bind(this);
     this.updateCondition = this.updateCondition.bind(this);
+    this.updateExpression = this.updateExpression.bind(this);
     this.getValidationState = this.getValidationState.bind(this);
   }
 
   getValidationState() {
     const { validCondition } = this.state;
     return validCondition ? 'success' : 'error';
+  }
+
+  updateExpression(newZipper) {
+    let zipper = newZipper;
+    while (!zipper.isRoot()) {
+      zipper = zipper.up();
+    }
+
+    const lastParse = zipper.to_a();
+    const conditionString = JSON.stringify(lastParse);
+
+    this.setState({
+      zipper,
+      lastParse,
+      conditionString,
+    });
   }
 
   toggleBuilder() {
@@ -39,13 +61,16 @@ class ConditionBuilder extends React.Component {
 
   updateCondition(evt) {
     const expr = evt.target.value;
-    let { lastParse, validCondition } = this.state;
+    let { lastParse, validCondition, zipper } = this.state;
 
     try {
       const parse = JSON.parse(expr);
       if (parse != null && parse instanceof Array) {
         validCondition = true;
         lastParse = parse;
+        zipper = Zipper.from_a(lastParse);
+      } else {
+        validCondition = false;
       }
     } catch (ex) {
       validCondition = false;
@@ -54,6 +79,7 @@ class ConditionBuilder extends React.Component {
       conditionString: expr,
       validCondition,
       lastParse,
+      zipper,
     });
   }
 
@@ -62,6 +88,7 @@ class ConditionBuilder extends React.Component {
       showBuilder,
       conditionString,
       lastParse,
+      zipper,
     } = this.state;
     const builderDisplay = showBuilder ? 'block' : 'none';
 
@@ -96,7 +123,11 @@ class ConditionBuilder extends React.Component {
           <Col xs="12" md="12">
             <Panel>
               <Panel.Body>
-                <ConditionViewer condition={lastParse} />
+                <ConditionViewer
+                  condition={lastParse}
+                  onEdit={this.updateExpression}
+                  zipper={zipper}
+                />
               </Panel.Body>
             </Panel>
           </Col>

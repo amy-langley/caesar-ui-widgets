@@ -21,7 +21,7 @@ class Node {
 
   static from_a(ary) { // eslint-disable-line camelcase
     if (ary == null) {
-      return null;
+      return new Node(null);
     }
 
     if (!(ary instanceof Array)) {
