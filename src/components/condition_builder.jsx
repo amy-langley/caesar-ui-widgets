@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import css from '../styl/index.styl'; // eslint-disable-line no-unused-vars
 import ConditionViewer from './condition_viewer';
+import HumanReadableSubtree from './human_readable_subtree';
 import { Zipper } from '../lib/zipper';
 
 class ConditionBuilder extends React.Component {
@@ -21,7 +22,7 @@ class ConditionBuilder extends React.Component {
 
     this.state = {
       conditionString: initString,
-      showBuilder: true,
+      showBuilder: false,
       validCondition: true,
       lastParse: JSON.parse(initString),
       zipper: Zipper.from_a(JSON.parse(initString)),
@@ -39,8 +40,6 @@ class ConditionBuilder extends React.Component {
   }
 
   updateExpression(newZipper) {
-    console.log('ping');
-    console.log(JSON.stringify(newZipper));
     let zipper = newZipper;
     while (!zipper.isRoot()) {
       zipper = zipper.up();
@@ -127,7 +126,7 @@ class ConditionBuilder extends React.Component {
               <Panel.Body className="condition-viewer">
                 <Grid fluid>
                   <Row>
-                    <Col xs={4} md={4}>
+                    <Col xs={6} md={6}>
                       <ul className="cv">
                         <ConditionViewer
                           condition={lastParse}
@@ -162,6 +161,10 @@ class ConditionBuilder extends React.Component {
                 Update
               </button>
             </div>
+            <strong>
+              If&nbsp;
+            </strong>
+            <HumanReadableSubtree zipper={zipper} />
           </Col>
         </Row>
       </Grid>

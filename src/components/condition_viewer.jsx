@@ -6,7 +6,6 @@ import {
   Glyphicon,
   MenuItem,
 } from 'react-bootstrap';
-import { Zipper } from '../lib/zipper';
 
 class ConditionViewer extends React.Component {
   constructor(props) {
@@ -79,28 +78,29 @@ class ConditionViewer extends React.Component {
     const { valueString, editing } = this.state;
     const { onDelete, onEdit, zipper } = this.props;
     const self = this;
+    const key = JSON.stringify(zipper.crumbs).replace(/\D/g, '');
     return (
       <span className="form-inline">
-        <li className="clearfix">
+        <li className="clearfix" key="-1">
           <span className="pull-right">
-            <Dropdown pullRight disabled={editing}>
+            <Dropdown pullRight disabled={editing} id="itemMenu">
               <Dropdown.Toggle className="btn-sm btn-primary">
                 <Glyphicon glyph="cog" />
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <MenuItem onSelect={this.appendChild}>
+                <MenuItem onSelect={this.appendChild} id="menuAppend">
                   <Glyphicon glyph="plus" className="pull-right" />
                   Add Child
                 </MenuItem>
-                <MenuItem onSelect={this.beginEdit}>
+                <MenuItem onSelect={this.beginEdit} id="menuEdit">
                   <i className="glyphicon glyphicon-pencil pull-right" />
                   Edit
                 </MenuItem>
-                <MenuItem onSelect={this.clearValue} disabled={zipper.isRoot()}>
+                <MenuItem onSelect={this.clearValue} disabled={zipper.isRoot()} id="menuClear">
                   <i className="glyphicon glyphicon-erase pull-right" />
                   Clear
                 </MenuItem>
-                <MenuItem onSelect={onDelete} disabled={zipper.isRoot()}>
+                <MenuItem onSelect={onDelete} disabled={zipper.isRoot()} id="menuRemove">
                   <i className="glyphicon glyphicon-remove pull-right" />
                   Remove
                 </MenuItem>
@@ -131,12 +131,16 @@ class ConditionViewer extends React.Component {
         <ul className="cv">
           { (zipper.item.children || []).map(
             (child, idx) => (
+              /* eslint-disable react/no-array-index-key */
               <ConditionViewer
+                key={`cv${key}${idx}`}
                 condition={child.item}
                 onEdit={onEdit}
                 onDelete={() => self.removeChild(idx)}
                 zipper={zipper.childAt(idx)}
-              />),
+              />
+              /* eslint-enable */
+            ),
           ) }
         </ul>
       </span>
@@ -147,7 +151,10 @@ class ConditionViewer extends React.Component {
 ConditionViewer.propTypes = {
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
-  zipper: PropTypes.objectOf(Zipper).isRequired,
+  zipper: PropTypes.shape({
+    item: PropTypes.object.isRequired,
+    crumbs: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
 ConditionViewer.defaultProps = {

@@ -5,7 +5,9 @@ class Node {
   }
 
   setValue(newValue) {
-    return new Node(newValue, this.children);
+    const n = Node.clone(this);
+    n.value = newValue;
+    return n;
   }
 
   /* eslint-disable class-methods-use-this */
@@ -15,14 +17,23 @@ class Node {
   /* eslint-enable */
 
   appendChild() {
-    return new Node(this.value, this.children.concat(new Node(null, [])));
+    const n = Node.clone(this);
+    n.children.push(new Node(null, []));
+    return n;
   }
 
   removeChild(index) {
-    return new Node(
-      this.value,
-      this.children.slice(0, index).concat(this.children.slice(index + 1)),
-    );
+    const n = Node.clone(this);
+    n.children = n.children.slice(0, index).concat(n.children.slice(index + 1));
+    return n;
+  }
+
+  to_a() { // eslint-disable-line camelcase
+    if (!this.children || this.children.length === 0) {
+      return this.value;
+    }
+
+    return [this.value].concat(this.children.map(c => c.to_a()));
   }
 
   static from_a(ary) { // eslint-disable-line camelcase
@@ -37,12 +48,16 @@ class Node {
     return new Node(ary[0], ary.slice(1).map(a => Node.from_a(a)));
   }
 
-  to_a() { // eslint-disable-line camelcase
-    if (!this.children || this.children.length === 0) {
-      return this.value;
-    }
-
-    return [this.value].concat(this.children.map(c => c.to_a()));
+  static clone(someNode) {
+    return Object.assign(
+      Object.create(
+        Object.getPrototypeOf(someNode),
+      ),
+      {
+        value: someNode.value,
+        children: (someNode.children || []).slice(0),
+      },
+    );
   }
 }
 
