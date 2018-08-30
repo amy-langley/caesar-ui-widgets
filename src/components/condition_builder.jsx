@@ -12,7 +12,7 @@ import {
 import css from '../styl/index.styl'; // eslint-disable-line no-unused-vars
 import ConditionViewer from './condition_viewer';
 import HumanReadableSubtree from './human_readable_subtree';
-import { Zipper } from '../lib/zipper';
+import Zipper from '../lib/zipper';
 
 class ConditionBuilder extends React.Component {
   constructor() {
